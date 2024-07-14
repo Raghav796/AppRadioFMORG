@@ -29,7 +29,7 @@ class SignUpPage:
             return None
 
     def enter_username(self, username):
-        element = self.wait_for_element_visible(By.ID, "username")
+        element = self.wait_for_element_visible(By.ID,"username")
         if element:
             element.send_keys(username)
 
@@ -70,7 +70,12 @@ class SignUpPage:
         return element is not None
 
     def get_validation_messages(self):
-        validation_message_elements = self.driver.find_elements(By.CLASS_NAME, "error")
+        # Wait for the validation messages to be present
+        validation_message_elements = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_all_elements_located((By.CLASS_NAME, 'error'))
+        )
+
+        # Retrieve and return the text of each validation message element
         return [element.text for element in validation_message_elements]
 
     def get_email_validation_message(self):
@@ -117,7 +122,7 @@ class SignUpPage:
         self.driver.get("https://appradiofm.com/signup")
 
     def enter_otp(self, otp):
-        otp_fields = self.driver.find_elements(By.XPATH,"//div//input[@type='number']") # Adjust selector as necessary
+        otp_fields = self.driver.find_elements(By.XPATH, "//div//input[@type='number']")  # Adjust selector as necessary
         for i, digit in enumerate(otp):
             otp_fields[i].send_keys(digit)
 

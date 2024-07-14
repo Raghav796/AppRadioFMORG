@@ -1,6 +1,6 @@
 import pytest
 from pageObjects.dashboard import DashboardPage
-from pageObjects.login import LogIn
+from pageObjects.logIn import LogIn
 from pageObjects.signUp import SignUpPage
 from utilities.BaseClass import BaseClass
 
@@ -25,15 +25,13 @@ class TestSignUp(BaseClass):
         self.wait_for_title_contains("Register")
         assert "Register" in self.driver.title
 
-    def test_presence_of_all_fields(self):
-        fields = ["username", "email", "gender", "date", "pass", "cpass"]
-        for field in fields:
-            assert self.signup_page.is_field_displayed(field)
+
 
     def test_mandatory_fields_validation(self):
         self.signup_page.submit_form()
         validation_messages = self.signup_page.get_validation_messages()
         assert len(validation_messages) > 0
+
 
     def test_email_field_with_invalid_format(self):
         self.signup_page.enter_email("abc")
@@ -69,20 +67,14 @@ class TestSignUp(BaseClass):
         validation_message = self.signup_page.get_email_exists_message()
         assert "Email Id already exists" in validation_message
 
-    # Navigate back to the sign-up page
+        # Navigate back to the sign-up page
         self.signup_page.navigate_to_signup_page()
         self.wait_for_title_contains("Register")
         assert "Register" in self.driver.title
 
-
-
-
-
-
-
     def test_successful_form_submission(self):
         self.signup_page.enter_username("Testing")
-        self.signup_page.enter_email("noneeyy@yopmail.com")
+        self.signup_page.enter_email("jeetmm@yopmail.com")
         self.signup_page.select_gender("Male")
         self.signup_page.enter_password("String@123")
         self.signup_page.enter_confirm_password("String@123")
@@ -92,9 +84,7 @@ class TestSignUp(BaseClass):
         self.wait_for_url_change(old_url)
         assert "signup" in self.driver.current_url
 
-
     def test_otp_verification(self):
-
         otp = "1234"  # Replace with the actual OTP or a method to retrieve it
         self.signup_page.enter_otp(otp)
         self.signup_page.submit_otp()

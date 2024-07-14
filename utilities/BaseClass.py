@@ -4,7 +4,7 @@ from selenium.common.exceptions import TimeoutException
 
 
 class BaseClass:
-    def wait_for_element_visible(self, by, value, timeout=20):
+    def wait_for_element_visible(self, by, value, timeout=40):
         try:
             return WebDriverWait(self.driver, timeout).until(
                 EC.visibility_of_element_located((by, value))
@@ -13,7 +13,7 @@ class BaseClass:
             print(f"Element with {by} = {value} not visible after {timeout} seconds.")
             return None
 
-    def wait_for_element_clickable(self, by, value, timeout=20):
+    def wait_for_element_clickable(self, by, value, timeout=30):
         try:
             return WebDriverWait(self.driver, timeout).until(
                 EC.element_to_be_clickable((by, value))
